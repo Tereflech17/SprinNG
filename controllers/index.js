@@ -2,7 +2,7 @@ const User = require('../models/user/user');
 const Author = require("../models/user/author");
 const Book = require("../models/book");
 const Article = require("../models/article");
-const passport = require('passport');
+const util = require("util");
 const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -178,6 +178,8 @@ module.exports = {
     async putForgotPw(req, res, next){
         const token = await crypto.randomBytes(20).toString('hex');
         const { email } = req.body;
+
+        console.log("email======>")
         const user = await User.findOne({ email  });
         if(!user){
             req.session.error = 'No account with that email was found!';
@@ -189,7 +191,7 @@ module.exports = {
 
         const msg = {
             to: email,
-            from: 'SprinNG <contact@sprinng.org>',
+            from: 'contact@sprinng.org',
             subject: 'SprinNG - Forgot Password / Reset',
             text: `You are receiving this because you (or someone else) have requested the reset of the password for your account. Please click on the following link, or copy and paste it into your browser to complete the process:
             http://${req.headers.host}/reset/${token}
@@ -222,12 +224,15 @@ module.exports = {
             resetPasswordExpires: { $gt: Date.now() }
         });
 
+        console.log("user found ====> ", user);
         if (!user) {
             req.session.error = 'Password reset token is invalid or has expired';
             return res.redirect('/forgot/password');
         }
         
-        if (req.body.password === req.body.confirm-password) {
+        if (req.body.password === req.body.confirm) {
+            console.log("req.body.password=====>", req.body.password);
+            console.log("req.body.password=====>", req.body.confirm);
             await user.setPassword(req.body.password);
             user.resetPasswordToken = null;
             user.resetPasswordExpires = null;
@@ -240,13 +245,13 @@ module.exports = {
         }
 
         const msg = {
-            to: user.email,
-            from: 'SprinNG Admin <contact@sprinng.org>',
-            subject: 'SprinNG - Password Reset',
-            text: `Hello, 
+            to: user.username,
+            from: 'contact@sprinng.org',
+            subject: 'SprinNG - Password Changed',
+            text: `Hello,
             This email is to confirm that the password for your account has just been changed.
-            If you did not make this change, please hit reply and notify us at once.`.replace(/            /g,'')
-        };
+            If you did not make this change, please hit reply and notify us at once.`.replace(/     /g, '')
+          };
 
         await sgMail.send(msg);
         req.session.success = 'Password has been successfully updated!';
