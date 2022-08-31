@@ -3,6 +3,7 @@
 *::after {
     /* overflow-x: hidden; */
 	box-sizing: inherit;
+	box-sizing: border-box;
 	/* overflow-x: hidden; */
 }
 
