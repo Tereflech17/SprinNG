@@ -6,8 +6,8 @@
 	/* overflow-x: hidden; */
 }
 
-html {
-	font-size: 62.5%; }
+/* html {
+	font-size: 62.5%; } */
 
 
 a {
@@ -417,7 +417,7 @@ hero header styles
 ===================
 */
 .hero {
-	padding-bottom: 0px;
+	padding-bottom: 25px;
 	background-image:  url(../img/hero-bg.png);
 	background-size: cover;
 	background-position: center;
@@ -553,7 +553,7 @@ hero header styles
 .hero .male-figure {
 	position: relative;
 	left: -6rem;
-	bottom: -35px;
+	bottom: -47px;
 	transform: scale(1.5);
 }
 
