@@ -112,7 +112,7 @@ module.exports = {
         console.log("body parse ========>", req.body); // for debugging purposes
        
         req.session.success = 'Profile setup successfully completed!';
-        res.redirect("/profile");
+        res.redirect("author/myprofile");
       
     },
 
