@@ -1,44 +1,70 @@
 <%- include ("./partials/header") %>
 <div class="container">
-    <div class="u-mt-rm">
-        <form class="" action="/author/myprofile/<%= authorProfile.id %>?_method=PUT" method="POST">
-            <div class="form-card profile">
-                <h3 class="edit-card-title">Edit Profile</h3>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                    <!-- <label for="email">Email</label> -->
-                    <input type="text" name="user[firstName]" class="form-control" placeholder="First Name" value="<%= userProfile.firstName %>">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" name="user[lastName]" class="form-control" placeholder="Last Name" value="<%= userProfile.lastName %>">
-                  </div>
+    <div class="box u-mt-10">
+      <div class="edit-book-form">
+        <form action="/author/myprofile/<%= authorProfile.id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+          <div class="field">
+            <h5 class="subtitle is-3 is-spaced">Edit Profile</h5>
+            <div class="field is-grouped">
+              <div class="control">
+                <input type="text" name="user[firstName]" class="input" placeholder="First Name" value="<%= userProfile.firstName %>">
               </div>
-             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <input type="text" name="authorProfile[location]" class="form-control" placeholder="Location" value="<%= authorProfile.location %>">
-                  </div>
-                  <div class="form-group col-md-6">
-                    <input type="text" name="authorProfile[website]" class="form-control" placeholder="Personal/Blog Link" value="<%= authorProfile.website %>" >
-                  </div>
-             </div>
-             
-              <div class="form-group">
-                  <textarea name="authorProfile[biography]" class="form-control" id="" cols="30" rows="10" class="form-control" placeholder="Biography"><%= authorProfile.biography %></textarea>
+              <div class="control">
+                <input type="text" name="user[lastName]" class="input" placeholder="Last Name" value="<%= userProfile.lastName %>">
               </div>
-        
-                <div class="form-group">
-                    <input type="text" name="authorProfile[linkedin]" class="form-control" placeholder="LinkeIn URL" value="<%= authorProfile.linkedin%>">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="authorProfile[twitter]" class="form-control" placeholder="Twitter URL" value="<%= authorProfile.twitter%>">
-                </div>
-                <div class="form-group">
-                <input type="text" name="authorProfile[instagram]" class="form-control" placeholder="Instagram URL" value="<%= authorProfile.instagram%>">
-                </div>
-                <div class="form-btn">
-                    <button class="my-btn btn-sr btn-dark-green-2" type="submit">Save</button>
-                  </div>
+          </div>
+          <div class="field is-grouped">
+            <div class="control">
+              <input type="text" name="authorProfile[location]" class="input" placeholder="Location" value="<%= authorProfile.location %>">
             </div>
-          </form>
+            <div class="control">
+              <input type="text" name="authorProfile[website]" class="input" placeholder="Personal/Blog Link" value="<%= authorProfile.website %>" >
+            </div>
+          </div>
+          <div class="field">
+            <div class="file">
+              <label class="file-label">
+                <input class="file-input" type="file" name="user[photo]">
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label">
+                    Choose a file…
+                  </span>
+                </span>
+                <span class="file-name">
+                  <%= currentUser.photo.split('/')[3] %>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div class="field">
+              <div class="control">
+                <textarea name="authorProfile[biography]" class="textarea" class="form-control" placeholder="Biography"><%= authorProfile.biography %></textarea>
+          </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" name="authorProfile[linkedin]" class="input" placeholder="LinkeIn URL" value="<%= authorProfile.linkedin%>">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" name="authorProfile[twitter]" class="input" placeholder="Twitter URL" value="<%= authorProfile.twitter%>">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input type="text" name="authorProfile[instagram]" class="input" placeholder="Instagram URL" value="<%= authorProfile.instagram%>">
+            </div>
+          </div>
+              <div class="field">
+                <div class="control">
+                    <button id="" class="button is-primary is-outlined">Save</button>
+                </div>
+            </div>
+      </form>
+      </div>
     </div>
 </div>

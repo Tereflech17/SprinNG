@@ -1,30 +1,69 @@
 <%- include ("../partials/header") %>
 <div class="container">
-    <div class="profile u-mt-rm">
-        <div class="card-top">
-            <h4 class="card-heading">Books</h4>
-            <div class="card-icons">
-                <a href="/author/book/new">
-                    <i class="fa-solid fa-plus fa-size-lg fa-weight-light pad-right-min "></i>
-                </a>
+    <div class="box u-mt-10">
+        <div class="level is-mobile">
+            <div class="level-left">
+                <div class="level-item">
+                    <p class="title is-size-4-mobile is-size-3-desktop is-size-3-tablet">Books</p>
+                </div>
+            </div>
+            <div class="level-right">
+                <div class="level-item">
+                    <span class="icon is-small">
+                        <a href="/author/book/new"><i class="fa-solid fa-plus pad-right-min fa-weight-light"></i></a>
+                    </span>
+                </div>
+                <!-- <div class="level-item">
+                    <span class="icon is-small">
+                    <a href="/author/book/details"><i class="fa-regular fa-pen-to-square"></i></a>
+                    </span>
+                </div> -->
             </div>
         </div>
-        <div class="books">
-            <% books.forEach(function(book){ %>
-                <div class="book-info">
-                    <div class="book-cover-photo">
-                        <i class="fa-solid fa-book"></i>
-                    </div>
-                    <div class="book-description">
-                        <h5 class="title"><%= book.bookTitle %></h5>
-                        <p class="sub-title"><%= book.category %></p>
-                        <p class="short-text"><%= book.bookDescription %></p> 
-                    </div>
-                    <a href="/author/book/details/<%= book._id %>/edit">
-                        <i class="fa-solid fa-pen-to-square fa-size-sm fa-weight-light"></i>
-                    </a>
+        <% books.forEach(function(book){ %>
+            <div class="level-right">
+                <div class="level-item">
+                    <span class="icon is-small">
+                    <a href="/author/book/details/<%= book._id %>/edit"><i class="fa-regular fa-pen-to-square"></i></a>
+                    </span>
                 </div>
-            <%}) %>
-            </div> 
-        </div>
+            </div>
+        <article class="media">
+            <figure class="media-left">
+              <p class="image is-64x64">
+                <img src="https://bulma.io/images/placeholders/128x128.png">
+              </p>
+            </figure>
+            <div class="media-content">
+              <div class="content">
+                <div>
+                  <strong><%= book.bookTitle %></strong> 
+                  <br>
+                  <p><%= book.bookDescription %></p>
+                </div>
+              </div>
+              <nav class="level is-mobile">
+                <div class="level-left">
+                  <a class="level-item">
+                    <span class="icon is-small"><i class="fas fa-reply"></i></span>
+                  </a>
+                  <a class="level-item">
+                    <span class="icon is-small">
+                        <a href=""><i class="fas fa-retweet"></i></a>
+                    </span>
+                  </a>
+                  <a class="level-item">
+                    <span class="icon is-small">
+                        <a href=""><i class="fas fa-heart"></i></a>
+                    </span>
+                  </a>
+                </div>
+              </nav>
+            </div>
+      
+          </article>
+          
+          <%}) %>
+        
 </div>
+

@@ -34,7 +34,7 @@ module.exports = {
 
         //redirect to TODO
         req.session.success = 'New book information added successfully!';
-        res.redirect('/profile');
+        res.redirect('/author/myprofile');
 
     },
 

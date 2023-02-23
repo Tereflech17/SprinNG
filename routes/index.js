@@ -1,23 +1,23 @@
-const express = require('express'),
-      router = express.Router({mergeParams: true});
-const { landingPage, 
-        getRegister, 
-        postRegister, 
-        getLogin,
-        postLogin, 
-        getLogout,
-        getWelcomeProfileForm,
-        postProfileInfoSetup,
-        getProfileTest, 
-        getProfile,
-        profileEdit,
-        profileUpdate,
-        getForgotPw,
-        putForgotPw,
-        getReset,
-        putReset } = require('../controllers/index');
-const { asyncErrorHandler, isLoggedIn } = require('../middleware/index');
+const express = require('express');
+const router = express.Router({mergeParams: true});
+const multer = require('multer');
 
+
+const { asyncErrorHandler, isLoggedIn, multerFilter, resizeUserPhoto } = require('../middleware/index');
+
+const { landingPage, getRegister, postRegister, getLogin, postLogin, getLogout,                      getProfileTest, getProfile, profileEdit, profileUpdate, getWelcomeProfileForm, postProfileInfoSetup,
+ getForgotPw, putForgotPw, getReset, putReset } = require('../controllers/index');
+
+// const { router } = require('../app');
+
+const multerStorage = multer.memoryStorage();
+// configure middleware
+const upload = multer({
+    storage: multerStorage,
+    fileFilter: multerFilter
+})
+
+// const upload = multer({dest: 'public/img/users'})
 
 // root route - landing page
 router.get('/', landingPage);
@@ -37,21 +37,20 @@ router.post('/login', asyncErrorHandler(postLogin));
 /* GET /logout */
 router.get('/logout', getLogout)
 
-
 /* GET /welcome profile steup */ 
-router.get('/welcome', getWelcomeProfileForm);
+router.get('/welcome', isLoggedIn, getWelcomeProfileForm);
 
 /* POST /welcome */
-router.post('/welcome', asyncErrorHandler(postProfileInfoSetup));
+router.post('/welcome', isLoggedIn,  asyncErrorHandler(postProfileInfoSetup));
 
-router.get("/myprofile", asyncErrorHandler(getProfileTest));
+router.get("/myprofile", isLoggedIn, asyncErrorHandler(getProfileTest));
 
 /* GET /profile */
-router.get('/author/myprofile', isLoggedIn, asyncErrorHandler(getProfile))
+router.get('/author/myprofile',  asyncErrorHandler(getProfile))
 
-router.get('/author/myprofile/:id/edit', isLoggedIn, asyncErrorHandler(profileEdit));
+router.get('/author/myprofile/:id/edit', asyncErrorHandler(profileEdit));
 
-router.put('/author/myprofile/:id', isLoggedIn, asyncErrorHandler(profileUpdate))
+router.put('/author/myprofile/:id', upload.single('user[photo]'), resizeUserPhoto, asyncErrorHandler(profileUpdate))
 
 /* GET /forgot */
 router.get('/forgot-password', getForgotPw);

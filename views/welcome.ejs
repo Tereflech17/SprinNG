@@ -1,100 +1,122 @@
 <%- include ("./partials/header") %>
-<div class="container u-mt-rm">
-   <div class="my-container">
-    <!-- <div class="step-indicator-arrow">
-      <div id="progress"></div>
-      <div class="step-col">Step I</div>
-      <div class="step-col">Step II</div>
-      <div class="step-col">Step III</div>
-      <div class="step-col">Step IV</div>
-  </div> -->
-    <form data-multi-step class="multi-step-form" actiom="/welcome" method="POST">
-        <div class="card" data-step>
-          <h3 class="step-title">Personal Information</h3>
-          <div class="form-row">
-            <div class="form-group col-md-6">
-                <!-- <label for="email">Email</label> -->
-                <input type="text" name="" class="form-control" placeholder="First Name" value="<%= currentUser.firstName %>">
+<div class="container">
+  <div class="profile-setup-form u-mt-10">
+      <div class="box">
+          <form data-multi-step class="multi-step-form" actiom="/welcome" method="POST">
+              <div class="form-card" data-step>
+                  <h1 class="title step-title">Personal Information</h1>
+                  <div class="field is-grouped">
+                      <div class="control">
+                          <input type="text" name="" placeholder="First Name"  class="input" value="<%= currentUser.firstName %>">
+                      </div>
+                      <div class="control">
+                          <input type="text" name="" placeholder="Last Name" class="input" value="<%= currentUser.lastName %>">
+                      </div>
+                  </div>
+                  <div class="field is-grouped">
+                      <div class="control">
+                          <input type="text" name="userInfo[location]" placeholder="Country" class="input">
+                      </div>
+                      <div class="control">
+                          <input type="text" name="userInfo[website]" placeholder="eg www.mysite.com" class="input">
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="control">
+                          <textarea class="textarea" name="userInfo[biography]" placeholder="Biography"></textarea>
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="control">
+                          <button class="button is-primary is-outlined" type="button" data-next>Next</button>
+                      </div>
+                  </div>
               </div>
-              <div class="form-group col-md-6">
-                <input type="text" name="" class="form-control" placeholder="Last Name" value="<%= currentUser.lastName %>">
-              </div>
-          </div>
-         <div class="form-row">
-            <div class="form-group col-md-6">
-                <input type="text" name="userInfo[location]" class="form-control" placeholder="Location">
-              </div>
-              <div class="form-group col-md-6">
-                <input type="text" name="userInfo[website]" class="form-control" placeholder="Personal/Blog Link">
-              </div>
-         </div>
-         
-          <div class="form-group">
-              <textarea name="userInfo[biography]" class="form-control" id="" cols="30" rows="10" class="form-control" placeholder="Biography"></textarea>
-          </div>
-          <div class="form-btn">
-            <button class="btn btn-dark-green-2" type="button" data-next>Next</button>
-          </div>
-     
-        </div>
-        <div class="card" data-step>
-          <h3 class="step-title">Published Books</h3>
-          <div class="form-group">
-            <input type="text" name="bookInfo[bookTitle]" class="form-control" placeholder="Title">
-          </div>
-          <div class="form-group">
-            <input type="text" name="bookInfo[category]" class="form-control" placeholder="Category">
-          </div>
-          <div class="form-group">
-            <textarea name="bookInfo[bookDescription]" id="" cols="30" rows="10" class="form-control" placeholder="Description"></textarea>
-          </div>
-         
-          <div class="form-btn">
-            <button class="btn btn-dark-green-2" type="button" data-previous>Previous</button>
-            <button class="btn btn-dark-green-2" type="button" data-next>Next</button>
-          </div>
-        
-        </div>
-        <div class="card" data-step>
-          <h3 class="step-title">Published Articles</h3>
-            <div class="form-group">
-                <input type="text" name="articleInfo[articleTitle]" class="form-control" placeholder="Title">
-            </div>
-            <div class="form-group">
-                <input type="text" name="articleInfo[publishingYear]" class="form-control" placeholder="Year of publication">
-            </div>
-            <div class="form-group">
-                <textarea name="articleInfo[articleDescription]" id="" cols="30" rows="10" class="form-control" placeholder="Description"></textarea>
-            </div>
-          <div class="form-btn">
-            <button class="btn btn-dark-green-2" type="button" data-previous>Previous</button>
-            <button class="btn btn-dark-green-2" type="button" data-next>Next</button>
-          </div>
-          
-        </div>
 
-        <div class="card" data-step>
-          <h3 class="step-title">Social Links</h3>
-            <div class="form-group">
-                <input type="text" name="" class="form-control" placeholder="LinkeIn URL">
-            </div>
-            <div class="form-group">
-                <input type="text" name="" class="form-control" placeholder="Twitter URL">
-            </div>
-            <div class="form-group">
-              <input type="text" name="" class="form-control" placeholder="Instagram URL">
-            </div>
-          <div class="form-btn">
-            <button class="btn btn-dark-green-2" type="button" data-previous>Previous</button>
-            <button class="btn btn-dark-green-2" type="submit">Submit</button>
-          </div>
-          
-        </div>
-     
-      </form>
+              <div class="form-card" data-step>
+                  <h1 class="title step-title">Published Books</h1>
+                  <div class="field">
+                      <div class="control">
+                          <input type="text" name="bookInfo[bookTitle]" placeholder="Title" class="input">
+                      </div>
+                      </div>
+                      <div class="field">
+                      <div class="control">
+                          <input type="text" name="bookInfo[category]" placeholder="Category" class="input">
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="control">
+                          <textarea class="textarea" name="bookInfo[bookDescription]" placeholder="Description"></textarea>
+                      </div>
+                  </div>
+                  <div class="field is-grouped">
+                      <div class="control">
+                          <button class="button is-primary is-outlined" type="button" data-previous>Previous</button>
+                      </div>
+                      <div class="control">
+                          <button class="button is-primary is-outlined" type="button" data-next>Next</button>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-card" data-step>
+                  <h1 class="title step-title">Published Articles</h1>
+                  <div class="field">
+                      <div class="control">
+                          <input type="text" name="articleInfo[articleTitle]" placeholder="Title" class="input">
+                      </div>
+                      </div>
+                      <div class="field">
+                      <div class="control">
+                          <input type="date" name="articleInfo[publishingYear]" placeholder="MM/DD/YYYY" class="input">
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="control">
+                          <textarea class="textarea" name="articleInfo[articleDescription]" placeholder="Description"></textarea>
+                      </div>
+                  </div>
+                  <div class="field is-grouped">
+                      <div class="control">
+                          <button class="button is-primary is-outlined" type="button" data-previous>Previous</button>
+                      </div>
+                      <div class="control">
+                          <button class="button is-primary is-outlined" type="button" data-next>Next</button>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="form-card" data-step>
+                  <h1 class="title step-title">Social Links</h1>
+                  <div class="field">
+                      <div class="control">
+                          <input type="text" name="linkedin" placeholder="LinkedIn username" class="input">
+                      </div>
+                      </div>
+                      <div class="field">
+                      <div class="control">
+                          <input type="text" name="twitter" placeholder="Twitter username" class="input">
+                      </div>
+                  </div>
+                  <div class="field">
+                      <div class="control">
+                          <input type="text" name="instagram" placeholder="Instagram username" class="input">
+                      </div>
+                  </div>
+                  <div class="field is-grouped">
+                      <div class="control">
+                          <button class="button is-primary is-outlined" type="button"  data-previous>Previous</button>
+                      </div>
+                      <div class="control">
+                          <button class="button is-primary is-outlined">Submit</button>
+                      </div>
+                  </div>
+              </div>
+
+          </form>
+      </div>
   
-   </div>
+  </div>
 </div>
 
-
-Lorem ipsum dolor, sit amet consectetur adipisicing elit. Odit corrupti inventore sit consectetur voluptatum vitae. Aliquam veritatis quis esse natus consequatur animi officia nulla voluptate? Expedita tempore fugit alias perspiciatis?

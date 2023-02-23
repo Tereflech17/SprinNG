@@ -1,41 +1,41 @@
-tinymce.init({
-    selector: 'textarea.my-textarea',
-    branding: false,
-    plugins: "paste",
-    paste_auto_cleanup_on_paste : true,
-    paste_remove_styles: true,
-    paste_remove_styles_if_webkit: true,
-    paste_strip_class_attributes: "all", 
-    forced_root_block : false, 
-    force_br_newlines : true, // tried with and without
-    force_p_newlines : false
-})
+// tinymce.init({
+//     selector: 'textarea.my-textarea',
+//     branding: false,
+//     plugins: "paste",
+//     paste_auto_cleanup_on_paste : true,
+//     paste_remove_styles: true,
+//     paste_remove_styles_if_webkit: true,
+//     paste_strip_class_attributes: "all", 
+//     forced_root_block : false, 
+//     force_br_newlines : true, // tried with and without
+//     force_p_newlines : false
+// })
 
-tinymce.init({
-    selector: 'textarea#bookDescription',
-    branding: false,
-    plugins: "paste",
-    paste_auto_cleanup_on_paste : true,
-    paste_remove_styles: true,
-    paste_remove_styles_if_webkit: true,
-    paste_strip_class_attributes: "all", 
-    forced_root_block : false, 
-    force_br_newlines : true, // tried with and without
-    force_p_newlines : false
-})
+// tinymce.init({
+//     selector: 'textarea#bookDescription',
+//     branding: false,
+//     plugins: "paste",
+//     paste_auto_cleanup_on_paste : true,
+//     paste_remove_styles: true,
+//     paste_remove_styles_if_webkit: true,
+//     paste_strip_class_attributes: "all", 
+//     forced_root_block : false, 
+//     force_br_newlines : true, // tried with and without
+//     force_p_newlines : false
+// })
 
-tinymce.init({
-    selector: 'textarea#article',
-    branding: false,
-    plugins: "paste",
-    paste_auto_cleanup_on_paste : true,
-    paste_remove_styles: true,
-    paste_remove_styles_if_webkit: true,
-    paste_strip_class_attributes: "all", 
-    forced_root_block : false, 
-    force_br_newlines : true, // tried with and without
-    force_p_newlines : false
-})
+// tinymce.init({
+//     selector: 'textarea#article',
+//     branding: false,
+//     plugins: "paste",
+//     paste_auto_cleanup_on_paste : true,
+//     paste_remove_styles: true,
+//     paste_remove_styles_if_webkit: true,
+//     paste_strip_class_attributes: "all", 
+//     forced_root_block : false, 
+//     force_br_newlines : true, // tried with and without
+//     force_p_newlines : false
+// })
 
 
 
@@ -157,50 +157,181 @@ tinymce.init({
 // }
 
 
-const multiStepForm = document.querySelector("[data-multi-step]")
-const formSteps = [...multiStepForm.querySelectorAll("[data-step]")]
-const progressBar = document.querySelector("#progress");
-console.log("form steps===> ", formSteps);
-let currentStep = formSteps.findIndex(step => {
-  return step.classList.contains("active")
-})
+// const multiStepForm = document.querySelector("[data-multi-step]")
+// const formSteps = [...multiStepForm.querySelectorAll("[data-step]")]
+// const progressBar = document.querySelector("#progress");
+// console.log("form steps===> ", formSteps);
+// let currentStep = formSteps.findIndex(step => {
+//   return step.classList.contains("active")
+// })
 
-if (currentStep < 0) {
-  currentStep = 0
-  showCurrentStep()
-}
+// if (currentStep < 0) {
+//   currentStep = 0
+//   showCurrentStep()
+// }
 
-multiStepForm.addEventListener("click", e => {
-  let incrementor
-  if (e.target.matches("[data-next]")) {
-    incrementor = 1
-    // progressBar.style.width = "42.5%";
+// multiStepForm.addEventListener("click", e => {
+//   let incrementor
+//   if (e.target.matches("[data-next]")) {
+//     incrementor = 1
+//     // progressBar.style.width = "42.5%";
     
     
-  } else if (e.target.matches("[data-previous]")) {
-    incrementor = -1
-    // progressBar.style.width = "21.25%";
-  }
+//   } else if (e.target.matches("[data-previous]")) {
+//     incrementor = -1
+//     // progressBar.style.width = "21.25%";
+//   }
 
-  if (incrementor == null) return
+//   if (incrementor == null) return
 
-  const inputs = [...formSteps[currentStep].querySelectorAll("input")]
-  const allValid = inputs.every(input => input.reportValidity())
-  if (allValid) {
-    currentStep += incrementor
+//   const inputs = [...formSteps[currentStep].querySelectorAll("input")]
+//   const allValid = inputs.every(input => input.reportValidity())
+//   if (allValid) {
+//     currentStep += incrementor
+//     showCurrentStep()
+//   }
+// })
+
+// formSteps.forEach(step => {
+//   step.addEventListener("animationend", e => {
+//     formSteps[currentStep].classList.remove("hide")
+//     e.target.classList.toggle("hide", !e.target.classList.contains("active"))
+//   })
+// })
+
+// function showCurrentStep() {
+//   formSteps.forEach((step, index) => {
+//     step.classList.toggle("active", index === currentStep)
+//   })
+// }
+
+const $searchIcon = document.querySelector('#searchIcon');
+
+$searchIcon.addEventListener('click', () => {
+    const $search = document.querySelector('#search');
+    $search.classList.toggle('search-is-visible');
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+
+  // Get all "navbar-burger" elements
+  const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+
+  // Add a click event on each of them
+  $navbarBurgers.forEach( el => {
+    el.addEventListener('click', () => {
+
+      // Get the target from the "data-target" attribute
+      const target = el.dataset.target;
+      const $target = document.getElementById(target);
+
+      // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+      el.classList.toggle('is-active');
+      $target.classList.toggle('is-active');
+
+    });
+  });
+
+});
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Functions to open and close a modal
+    function openModal($el) {
+      $el.classList.add('is-active');
+    }
+  
+    function closeModal($el) {
+      $el.classList.remove('is-active');
+    }
+  
+    function closeAllModals() {
+      (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+        closeModal($modal);
+      });
+    }
+  
+    // Add a click event on buttons to open a specific modal
+    (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+      const modal = $trigger.dataset.target;
+      const $target = document.getElementById(modal);
+  
+      $trigger.addEventListener('click', () => {
+        openModal($target);
+      });
+    });
+  
+    // Add a click event on various child elements to close the parent modal
+    (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+      const $target = $close.closest('.modal');
+  
+      $close.addEventListener('click', () => {
+        closeModal($target);
+      });
+    });
+  
+    // Add a keyboard event to close all modals
+    document.addEventListener('keydown', (event) => {
+      const e = event || window.event;
+  
+      if (e.keyCode === 27) { // Escape key
+        closeAllModals();
+      }
+    });
+  });
+
+
+  // function loadingSpinner(){
+  //   let btnLogin = document.querySelector('#login-button');
+  //   btnLogin.addEventListener('click', () => {
+  //     btnLogin.classList.add('is-loading');
+  //   })
+  // }
+
+  // loadingSpinner();
+
+
+  /** multi step form */
+  const multiStepForm = document.querySelector("[data-multi-step]")
+  const formSteps = [...multiStepForm.querySelectorAll("[data-step]")]
+  console.log("form steps===> ", formSteps);
+  let currentStep = formSteps.findIndex(step => {
+    return step.classList.contains("active")
+  })
+  
+  if (currentStep < 0) {
+    currentStep = 0
     showCurrentStep()
   }
-})
-
-formSteps.forEach(step => {
-  step.addEventListener("animationend", e => {
-    formSteps[currentStep].classList.remove("hide")
-    e.target.classList.toggle("hide", !e.target.classList.contains("active"))
+  
+  multiStepForm.addEventListener("click", e => {
+    let incrementor
+    if (e.target.matches("[data-next]")) {
+      incrementor = 1
+      
+    } else if (e.target.matches("[data-previous]")) {
+      incrementor = -1
+    }
+  
+    if (incrementor == null) return
+  
+    const inputs = [...formSteps[currentStep].querySelectorAll("input")]
+    const allValid = inputs.every(input => input.reportValidity())
+    if (allValid) {
+      currentStep += incrementor
+      showCurrentStep()
+    }
   })
-})
-
-function showCurrentStep() {
-  formSteps.forEach((step, index) => {
-    step.classList.toggle("active", index === currentStep)
+  
+  formSteps.forEach(step => {
+    step.addEventListener("animationend", e => {
+      formSteps[currentStep].classList.remove("hide")
+      e.target.classList.toggle("hide", !e.target.classList.contains("active"))
+    })
   })
-}
+  
+  function showCurrentStep() {
+    formSteps.forEach((step, index) => {
+      step.classList.toggle("active", index === currentStep)
+    })
+  }

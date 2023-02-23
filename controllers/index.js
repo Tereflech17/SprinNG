@@ -5,11 +5,36 @@ const Article = require("../models/article");
 const util = require("util");
 const crypto = require('crypto');
 const sgMail = require('@sendgrid/mail');
+const multer = require('multer');
+const sharp = require('sharp'); 
+const { read } = require('fs');
+const { cloudinary } = require('../cloudinary');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
+// configure multer storage
+// const multerStorage = multer.diskStorage({
+//     destination: (req, file, cb ) => {
+//         cb(null, 'public/img/users');
+//     },
+//     filename: (req, file, cb) => {
+//         //get file extension
+//         const ext = file.mimetype.split('/')[1];
+//         cb(null, `user${req.user.id}-${Date.now()}.${ext}`);
+//     }
+// });
+
+function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+  }
+
+const multerStorage = multer.memoryStorage();
+
+// verify image uploads
+
+
 module.exports = {
-    
+  
     //GET / - home page 
     landingPage(req, res, next) {
         res.render('index', {title: "SprinNG - Home"});
@@ -25,8 +50,8 @@ module.exports = {
         try {
 
             let newUser = new User({
-                firstName: req.body.firstname, 
-                lastName:  req.body.lastname, 
+                firstName: req.body.firstName, 
+                lastName:  req.body.lastName, 
                 username: req.body.username
             });
             await User.register(new User(newUser), req.body.password);
@@ -104,15 +129,17 @@ module.exports = {
         //assign authorID referenced in books and articles
         bookInfo.authorID = authorInfo._id;
         articleInfo.authorID = authorInfo._id;
-
+        
+        //
+        // req.user.photo = authorInfo.photo; 
         //save book and article information
         await bookInfo.save();
         await articleInfo.save();
 
         console.log("body parse ========>", req.body); // for debugging purposes
-       
+    
         req.session.success = 'Profile setup successfully completed!';
-        res.redirect("author/myprofile");
+        res.redirect("/author/myprofile");
       
     },
 
@@ -138,6 +165,63 @@ module.exports = {
         res.json(author); 
     },
 
+    async getAuthorProfiles(req, res, next){
+    //    eval(require('locus'));
+       let { author_name } = req.query;
+       const dbQueries = [];
+       if(author_name){
+        let search = new RegExp(escapeRegExp(author_name), 'gi');
+         const query = { 
+            $or: [
+                {"UserID.firstName": search},
+                {"UserID.lastName": search},
+                {location: search}
+            ]
+         };
+            const profiles = await Author.find({query}).populate({
+            path: 'books',
+            populate: {
+                path: 'authorID',
+                model: 'Author'
+            }
+            }).populate({
+                path: 'articles',
+                populate:{
+                    path: 'authorID', 
+                    model: 'Author'
+            } 
+            }).populate({ 
+                path: 'userID',
+                model: 'User'
+            })
+           
+          console.log("author profile search =======> ", profiles);
+          res.render('author/index', { profiles: profiles })
+
+       } 
+    },
+
+    async getAuthorShow(req, res, next){
+        let profile = await Author.findById(req.params.id).populate({
+            path: 'books',
+            populate: {
+                path: 'authorID',
+                model: 'Author'
+            }
+            }).populate({
+                path: 'articles',
+                populate:{
+                    path: 'authorID', 
+                    model: 'Author'
+            } 
+            }).populate({ 
+                path: 'userID',
+                model: 'User'
+            })
+            console.log("show author profile ===> ", profile)
+            res.render('author/show', { profile });
+    },
+
     // GET /profile
     async getProfile(req, res, next){
         const authorProfile = await Author.find().populate({
@@ -152,8 +236,13 @@ module.exports = {
                 path: 'authorID', 
                 model: 'Author'
             } 
+        }).populate({ 
+            path: 'userID',
+            model: 'User'
         }).where('userID').equals(req.user);
         console.log("authorProfile ======>>>>>> ", authorProfile);
+        // req.user.photo = authorProfile[0].photo  // set user object with profile photo field
+        console.log("profile user request =====> ", req.user.photo);
         res.render('profile', { authorProfile });
     },
 
@@ -165,8 +254,11 @@ module.exports = {
     },
 
     async profileUpdate(req, res, next){
+        console.log("authorProfile update ======>>>>>> ", req.body.authorProfile);
+        if(req.file) req.body.user.photo = `/images/users/${req.file.filename}`;
         await Author.findByIdAndUpdate(req.params.id, req.body.authorProfile);
         await User.findByIdAndUpdate(req.user.id, req.body.user);
+        console.log("user ====== > ", req.body.user);
         req.session.success = 'Profile updated successfully';
         res.redirect('/author/myprofile');
     },
@@ -230,9 +322,9 @@ module.exports = {
             return res.redirect('/forgot/password');
         }
         
-        if (req.body.password === req.body.confirm) {
+        if (req.body.password === req.body.passwordConfirm) {
             console.log("req.body.password=====>", req.body.password);
-            console.log("req.body.password=====>", req.body.confirm);
+            console.log("req.body.password=====>", req.body.passwordConfirm);
             await user.setPassword(req.body.password);
             user.resetPasswordToken = null;
             user.resetPasswordExpires = null;
@@ -257,5 +349,4 @@ module.exports = {
         req.session.success = 'Password has been successfully updated!';
         res.redirect('/author/myprofile');
     }
-   
 }

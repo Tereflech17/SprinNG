@@ -1,4 +1,6 @@
 .env
 /node_modules
-
+/views/temp_v1
+/views/header.ejs
+/views/profiletemp.ejs
 

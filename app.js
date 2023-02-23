@@ -9,12 +9,15 @@ const YahooStrategy = require("passport-yahoo-oauth").Strategy;
 const authConfig = require("./authconfig");
 const methodOverride = require("method-override");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 const User = require("./models/user/user");
+const path = require("path");
 
 // require routes
 const indexRoutes = require("./routes/index");
 const bookRoutes = require("./routes/book");
 const articleRoutes = require("./routes/article");
+const searchRoutes = require("./routes/author");
 
 const app = express();
 
@@ -31,14 +34,15 @@ db.once('open', () => {
 });
 
 // use ejs-locals for all ejs templates:
-app.engine("ejs", engine);
+app.engine('ejs', engine);
 // vjiew engine setup
-app.set('views',(__dirname + "/views"));
+app.set('views', (__dirname + '/views'));
 app.set("view engine", "ejs");
 //set public assests directory
-app.use(express.static("public"));
+app.use(express.static('public'));
 
-app.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + '/public'));
+app.use(morgan('common'))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(methodOverride('_method'));
@@ -129,6 +133,7 @@ app.use((req, res, next) => {
 app.use('/', indexRoutes);
 app.use('/author/book', bookRoutes);
 app.use('/author/article', articleRoutes);
+app.use('/author', searchRoutes)
 
 // catch 404 and forward to error handler 
 app.use(function(req, res, next) {
