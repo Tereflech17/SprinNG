@@ -1,6 +1,11 @@
 .env
 /node_modules
+
 /views/temp_v1
 /views/header.ejs
 /views/profiletemp.ejs
-
+/views/book/index2.ejs
+/views/book/new2.ejs
+/views/article/edit2.ejs
+/views/article/index2.ejs
+/views/article/new2.ejs
