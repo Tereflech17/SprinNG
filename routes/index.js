@@ -2,11 +2,14 @@ const express = require('express');
 const router = express.Router({mergeParams: true});
 const multer = require('multer');
 
+const { 
+    asyncErrorHandler, 
+    isLoggedIn, 
+    multerFilter, 
+    resizeUserPhoto 
+} = require('../middleware/index');
 
-const { asyncErrorHandler, isLoggedIn, multerFilter, resizeUserPhoto } = require('../middleware/index');
-
-const { landingPage, getRegister, postRegister, getLogin, postLogin, getLogout,                      getProfileTest, getProfile, profileEdit, profileUpdate, getWelcomeProfileForm, postProfileInfoSetup,
- getForgotPw, putForgotPw, getReset, putReset } = require('../controllers/index');
+const { landingPage, getRegister, postRegister, getLogin, postLogin, getLogout,  getProfileTest, getProfile, profileEdit, profileUpdate, getWelcomeProfileForm, postProfileInfoSetup, getForgotPw, putForgotPw, getReset, putReset } = require('../controllers/index');
 
 // const { router } = require('../app');
 
@@ -41,7 +44,7 @@ router.get('/logout', getLogout)
 router.get('/welcome', isLoggedIn, getWelcomeProfileForm);
 
 /* POST /welcome */
-router.post('/welcome', isLoggedIn,  asyncErrorHandler(postProfileInfoSetup));
+router.post('/welcome',  asyncErrorHandler(postProfileInfoSetup));
 
 router.get("/myprofile", isLoggedIn, asyncErrorHandler(getProfileTest));
 

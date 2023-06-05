@@ -11,6 +11,7 @@ const AuthorSchema = new Schema({
     biography: String,
     location: String, 
     website: String,
+    quote: String,
     books: [
         {
             type: Schema.Types.ObjectId,

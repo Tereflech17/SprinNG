@@ -59,11 +59,17 @@
               <input type="text" name="authorProfile[instagram]" class="input" placeholder="Instagram URL" value="<%= authorProfile.instagram%>">
             </div>
           </div>
-              <div class="field">
-                <div class="control">
-                    <button id="" class="button is-primary is-outlined">Save</button>
-                </div>
+             
+            <div class="field">
+              <div class="control">
+                <textarea name="authorProfile[quote]" class="textarea" class="form-control" placeholder="Favorite quote"><%= authorProfile.quote %></textarea>
+          </div>
+          <div class="field">
+            <div class="control">
+                <button id="" class="button is-primary is-outlined">Save</button>
             </div>
+        </div>
+          </div>
       </form>
       </div>
     </div>

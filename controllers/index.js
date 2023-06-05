@@ -9,6 +9,7 @@ const multer = require('multer');
 const sharp = require('sharp'); 
 const { read } = require('fs');
 const { cloudinary } = require('../cloudinary');
+const { search } = require('../routes');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 
@@ -57,7 +58,7 @@ module.exports = {
             await User.register(new User(newUser), req.body.password);
             req.login(newUser, function(err){
                 if (err) return next(err);
-                req.session.success = `Welcome to SpringNG Writer's Database!`;
+                req.session.success = `Welcome to SprinNG Writer's Database!`;
                 console.log("the reqeust object =======> ", req.user);
                 console.log("the reqeust object userID =======> ", req.user._id);
 
@@ -83,7 +84,11 @@ module.exports = {
         const { username, password } = req.body;
         const {user, error } = await User.authenticate()(username, password);
         console.log("user------>", JSON.stringify(user, undefined, 2));
-        if(!user && error) return next(error);
+        if(!user && error) {
+            let err =  error.message;
+            res.render('login', {error: err})
+            //return next(error);
+        }else {
         req.login(user, function(err){
             if (err) return next(err);
             req.session.success = `Welcome back, ${user.firstName} ${user.lastName}!`;
@@ -91,6 +96,7 @@ module.exports = {
             delete req.session.redirectTo;
             res.redirect(redirectUrl);
         })
+    }
     },
 
     // GET /logout 
@@ -167,10 +173,10 @@ module.exports = {
 
     async getAuthorProfiles(req, res, next){
     //    eval(require('locus'));
-       let { author_name } = req.query;
+       let { search_key } = req.query;
        const dbQueries = [];
-       if(author_name){
-        let search = new RegExp(escapeRegExp(author_name), 'gi');
+       if(search_key){
+        let search = new RegExp(escapeRegExp(search_key), 'gi');
          const query = { 
             $or: [
                 {"UserID.firstName": search},
@@ -195,7 +201,7 @@ module.exports = {
                 model: 'User'
             })
            
-          console.log("author profile search =======> ", profiles);
+        //   console.log("author profile search =======> ", profiles);
           res.render('author/index', { profiles: profiles })
 
        } 
